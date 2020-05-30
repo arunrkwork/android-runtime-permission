@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     val REQUEST_CAMERA: Int = 101
     val REQUEST_STORAGTE: Int = 102
     val REQUEST_CONTACTS: Int = 103
+    val REQUEST_GROUP_PERMISSION: Int = 104
+
     val TXT_CAMERA: Int = 1
     val TXT_STORAGTE: Int = 2
     val TXT_CONTACTS: Int = 3
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         when(v!!.id) {
             R.id.btnAllPermission -> {
-
+                allPermission()
             }
             R.id.btnCameraPermission -> {
                 openCamera()
@@ -136,11 +138,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         alertDialog.show()
 
     }
+    
+    private fun requestGroupPermission(permission: MutableList<String>) {
+        ActivityCompat.requestPermissions(
+            this, permission.toTypedArray(), REQUEST_GROUP_PERMISSION
+        )
+    }
 
-    fun openCamera() {
+    private fun openCamera() {
         if(checkPermission(TXT_CAMERA) != PackageManager.PERMISSION_GRANTED) {
           if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-              Manifest.permission.CAMERA))
+                  Manifest.permission.CAMERA))
               showPermissionExplanation(TXT_CAMERA)
           else if(!permissionUtils!!.checkPermissionPreference("camera")) {
               requestPermission(TXT_CAMERA)
@@ -166,7 +174,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun openStorage() {
+    private fun openStorage() {
         if(checkPermission(TXT_STORAGTE) != PackageManager.PERMISSION_GRANTED) {
           if (ActivityCompat.shouldShowRequestPermissionRationale(this,
               Manifest.permission.WRITE_EXTERNAL_STORAGE))
@@ -195,7 +203,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun openContacts() {
+    private fun openContacts() {
         if(checkPermission(TXT_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
           if (ActivityCompat.shouldShowRequestPermissionRationale(this,
               Manifest.permission.READ_CONTACTS))
@@ -224,4 +232,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun allPermission() {
+        var permissionNeeded = ArrayList<String>()
+        var permissionAvailable = ArrayList<String>()
+        permissionAvailable.add(Manifest.permission.READ_CONTACTS)
+        permissionAvailable.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        permissionAvailable.add(Manifest.permission.CAMERA)
+
+
+        for (permission in permissionAvailable) {
+            if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionNeeded.add(permission)
+            }
+        }
+
+        requestGroupPermission(permissionNeeded)
+
+    }
 }
