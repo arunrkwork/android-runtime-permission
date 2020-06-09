@@ -5,26 +5,33 @@ import android.content.SharedPreferences
 
 class PermissionUtils(var context: Context) {
 
+    companion object {
+        val PER_CAMERA = "camera"
+        val PER_STORAGE = "storage"
+        val PER_CONTACTS = "contacts"
+    }
+
+    val KEY_SH_PEF_FILE = "permission_utils"
     var sharedPreferences: SharedPreferences? = null
     var editor: SharedPreferences.Editor? = null
 
     init {
-        sharedPreferences = context.getSharedPreferences("", Context.MODE_PRIVATE)
+        sharedPreferences = context.getSharedPreferences(KEY_SH_PEF_FILE, Context.MODE_PRIVATE)
         editor = sharedPreferences!!.edit()
     }
 
     fun updatePermissionPreference(permission: String) {
         when(permission) {
-            "camera" -> {
-                editor!!.putBoolean("camera", true)
+            PER_CAMERA -> {
+                editor!!.putBoolean(PER_CAMERA, true)
                 editor!!.commit()
             }
-            "storage" -> {
-                editor!!.putBoolean("storage", true)
+            PER_STORAGE -> {
+                editor!!.putBoolean(PER_STORAGE, true)
                 editor!!.commit()
             }
-            "contacts" -> {
-                editor!!.putBoolean("contacts", true)
+            PER_CONTACTS -> {
+                editor!!.putBoolean(PER_CONTACTS, true)
                 editor!!.commit()
             }
         }
@@ -33,14 +40,14 @@ class PermissionUtils(var context: Context) {
     fun checkPermissionPreference(permission: String): Boolean {
         var isShown = false
         isShown = when(permission) {
-            "camera" -> sharedPreferences!!
-                    .getBoolean("camera", false)
+            PER_CAMERA -> sharedPreferences!!
+                    .getBoolean(PER_CAMERA, false)
 
-            "storage" -> sharedPreferences!!
-                    .getBoolean("storage", false)
+            PER_STORAGE -> sharedPreferences!!
+                    .getBoolean(PER_STORAGE, false)
 
-            "contacts" -> sharedPreferences!!
-                    .getBoolean("contacts", false)
+            PER_CONTACTS -> sharedPreferences!!
+                    .getBoolean(PER_CONTACTS, false)
             else -> false
         }
         return isShown

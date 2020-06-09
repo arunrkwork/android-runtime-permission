@@ -150,9 +150,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
           if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                   Manifest.permission.CAMERA))
               showPermissionExplanation(TXT_CAMERA)
-          else if(!permissionUtils!!.checkPermissionPreference("camera")) {
+          else if(!permissionUtils!!.checkPermissionPreference(PermissionUtils.PER_CAMERA)) {
               requestPermission(TXT_CAMERA)
-              permissionUtils!!.updatePermissionPreference("camera")
+              permissionUtils!!.updatePermissionPreference(PermissionUtils.PER_CAMERA)
           } else {
                 Toast.makeText(this,
                     "Please allow camera permission in your app settings",
@@ -179,9 +179,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
           if (ActivityCompat.shouldShowRequestPermissionRationale(this,
               Manifest.permission.WRITE_EXTERNAL_STORAGE))
               showPermissionExplanation(TXT_STORAGTE)
-          else if(!permissionUtils!!.checkPermissionPreference("storage")) {
+          else if(!permissionUtils!!.checkPermissionPreference(PermissionUtils.PER_STORAGE)) {
               requestPermission(TXT_STORAGTE)
-              permissionUtils!!.updatePermissionPreference("storage")
+              permissionUtils!!.updatePermissionPreference(PermissionUtils.PER_STORAGE)
           } else {
                 Toast.makeText(this,
                     "Please allow storage permission in your app settings",
@@ -208,9 +208,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
           if (ActivityCompat.shouldShowRequestPermissionRationale(this,
               Manifest.permission.READ_CONTACTS))
               showPermissionExplanation(TXT_CONTACTS)
-          else if(!permissionUtils!!.checkPermissionPreference("contacts")) {
+          else if(!permissionUtils!!.checkPermissionPreference(PermissionUtils.PER_CONTACTS)) {
               requestPermission(TXT_CONTACTS)
-              permissionUtils!!.updatePermissionPreference("contacts")
+              permissionUtils!!.updatePermissionPreference(PermissionUtils.PER_CONTACTS)
           } else {
                 Toast.makeText(this,
                     "Please allow contacts permission in your app settings",
