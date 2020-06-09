@@ -249,4 +249,62 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         requestGroupPermission(permissionNeeded)
 
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+
+        when(requestCode) {
+            REQUEST_CAMERA -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "You have camera permission", Toast.LENGTH_LONG).show()
+                    var intent = Intent(this, ResultActivity::class.java)
+                    intent.putExtra("message", "You have camera permission")
+                    startActivity(intent)
+                } else Toast.makeText(this, "Camera Permission Denied", Toast.LENGTH_LONG).show()
+            }
+            REQUEST_STORAGTE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "You have storage permission", Toast.LENGTH_LONG).show()
+                    var intent = Intent(this, ResultActivity::class.java)
+                    intent.putExtra("message", "You have storage permission")
+                    startActivity(intent)
+                } else Toast.makeText(this, "Storage Permission Denied", Toast.LENGTH_LONG).show()
+            }
+            REQUEST_CONTACTS -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "You have contacts permission", Toast.LENGTH_LONG).show()
+                    var intent = Intent(this, ResultActivity::class.java)
+                    intent.putExtra("message", "You have contacts permission")
+                    startActivity(intent)
+                } else Toast.makeText(this, "Contacts Permission Denied", Toast.LENGTH_LONG).show()
+            }
+            REQUEST_GROUP_PERMISSION -> {
+                var result: String = ""
+                var i: Int = 0
+                for (per in permissions) {
+                    var status: String =    if(grantResults[i] == PackageManager.PERMISSION_GRANTED)
+                                             "GRANTED"
+                                            else "DENIED"
+                    result = result +" \n" + per + " : " + status
+                    i++
+                }
+
+                var builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                builder.setTitle("Group Permission")
+                builder.setMessage(result)
+                builder.setPositiveButton("OK") { dialog, which ->
+                    dialog.dismiss()
+                }
+
+                var alertDialog: AlertDialog = builder.create()
+                alertDialog.show()
+            }
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
 }
